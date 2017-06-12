@@ -59,7 +59,7 @@ function removeAllItem(){
     return;
 }
 
-function removeItem(){
+function quantityChange(){
   var uRemove = prompt("Would you like to change quantity of an item? Please enter Y or N");
   if(uRemove === "Y" || uRemove === "y" || uRemove === "Yes" || uRemove === "yes"){
     var itemRemove = prompt("Please enter the name of the item whose quantity you would like to change.");
@@ -114,8 +114,8 @@ function calculateTax (){
 var uAddItem = prompt("Would you like to add an item? Please enter Y or N");
  while(uAddItem === "Y" || uAddItem === "y" || uAddItem === "Yes" || uAddItem === "yes"){
     addItems();
-    removeItem();
     removeAllItem();
+    quantityChange();
     calculateTax();
     creditCheck();
     printCart();
