@@ -1,0 +1,126 @@
+<script>
+var cartItems = [];                                                                     
+var uItem;
+
+function addItems (){
+  var uContinue = true;
+  while(uContinue){
+      uItem = prompt("Please enter an item name and price seperated by a comma (ie Suitcase, 20) or -1 to exit");
+        if(uItem === "-1"){
+          uContinue = false;
+          continue;
+        }   
+        else{
+          let splitInput = uItem.split(", ");
+          console.log(splitInput[0]);
+          var dPreExist = determineIfPreExist(splitInput);
+            if(dPreExist !== null){
+                cartItems[dPreExist].quantity++;
+                alert("You increased the quantity of " + cartItems[dPreExist].name + " to " + cartItems[dPreExist].quantity);
+            }
+            else{
+              var item = {};
+              item.name = splitInput[0];
+              item.price = parseFloat(splitInput[1]);
+              item.quantity = 1;
+              cartItems.push(item);
+              alert("You added a " + item.name + " with a price of " + "$" + item.price);
+            }
+        }
+  }
+}
+
+function determineIfPreExist(sInput){
+  var preExist = null;
+  for(var i = 0; i <= cartItems.length -1; i++){
+             if(sInput[0] === cartItems[i].name){
+              preExist = i;
+             }
+          }
+  return preExist;
+}
+
+function removeAllItem(){
+  var uRemove = prompt("Would you like to remove all of an item? Please enter Y or N");
+  if(uRemove === "Y" || uRemove === "y" || uRemove === "Yes" || uRemove === "yes"){
+    var itemRemove = prompt("Please enter the name of the item you would like to remove.");
+    var loopy;
+    for(var i = 0; i <= cartItems.length-1; i++){
+      if(itemRemove === cartItems[i].name){
+        var iName2 = cartItems[i].name;
+        cartItems.splice(i,1);
+     }
+    }
+    alert("You removed " + iName2 + " from your shopping cart.")
+    printCart();
+    console.log(cartItems);
+   }
+  else
+    return;
+}
+
+function removeItem(){
+  var uRemove = prompt("Would you like to change quantity of an item? Please enter Y or N");
+  if(uRemove === "Y" || uRemove === "y" || uRemove === "Yes" || uRemove === "yes"){
+    var itemRemove = prompt("Please enter the name of the item whose quantity you would like to change.");
+    var itemRemoveCount = prompt("Please enter the amount you would like to change the quantity to.")
+    var loopy2;
+     for(var i = 0; i <= cartItems.length -1; i++){
+      if(cartItems[i].name === itemRemove){
+        cartItems[i].quantity = itemRemoveCount;
+        var iName = cartItems[i].name;
+        var iQuantity = cartItems[i].quantity;
+        }
+      }
+      alert("You changed the quantity of " + iName + " to " + iQuantity);
+      printCart();
+    }
+   
+  else
+    return;
+}
+
+function printCart(){
+  var iHeader = ("********************Here are your items********************")
+  var pCart = "";
+  for(var i = 0; i <= cartItems.length -1; i++){
+    pCart += cartItems[i].name;
+    pCart += ": $";
+    pCart += cartItems[i].price.toFixed(2); 
+    pCart += " quantity "; 
+    pCart += cartItems[i].quantity;
+    pCart += "\n";
+  }
+  alert(iHeader + "\n" + pCart);
+}
+
+function creditCheck(){
+  var cartPrice = 0;
+  for(var i = 0; i <= cartItems.length -1; i++){
+    cartPrice += (cartItems[i].price);
+  }
+  if(cartPrice > 100){
+    alert("Your total " + cartPrice.toFixed(2) + " is greater than 100 dollars therefore a credit line can be setup.");
+}
+  else
+    alert("Your total " + cartPrice.toFixed(2) + " is less than 100 dollars and therefore must be paid in cash.")
+}
+function calculateTax (){
+  for(var i = 0; i <= cartItems.length-1; i++){
+    cartItems[i].price = (cartItems[i].price + (cartItems[i].price*.075))*cartItems[i].quantity;
+  }
+}
+
+var uAddItem = prompt("Would you like to add an item? Please enter Y or N");
+ while(uAddItem === "Y" || uAddItem === "y" || uAddItem === "Yes" || uAddItem === "yes"){
+    addItems();
+    removeItem();
+    removeAllItem();
+    calculateTax();
+    creditCheck();
+    printCart();
+    uAddItem = prompt("Would you like to add more items? Please enter Y or N");
+    continue;
+ }
+
+</script>
